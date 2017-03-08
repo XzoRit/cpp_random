@@ -4,7 +4,7 @@ boost.use-project 1.62 ;
 import testing ;
 
 run main.cpp
-    :
+    : "--log_level=message"
     :
     : <include>$(boost_include_path)
       <cxxflags>-std=c++14
