@@ -28,6 +28,7 @@ const auto roll_one_dice = []()
 };
 
 using roll_results = std::map<int, int>;
+
 const auto runs{200000};
 const auto scale{runs / 1000};
 
@@ -51,14 +52,17 @@ const auto roll = [](int num_of_dices)
 
 void print_roll_results(const roll_results& rolls)
 {
-    for(const auto& p : rolls)
-    {
-        BOOST_TEST_MESSAGE(std::setw(2)
-            << p.first
-            << " : "
-            << std::string(p.second / scale, '*'));
-    }
-    BOOST_TEST_MESSAGE('\n');
+    BOOST_TEST_MESSAGE(
+        std::accumulate(
+            std::begin(rolls), std::end(rolls), std::string{},
+            [](const auto& a, const auto& b)
+            {
+                return a
+                    + std::to_string(b.first)
+                    + std::string(b.second / scale, '*')
+                    + '\n';
+            })
+        );
 }
 
 BOOST_FIXTURE_TEST_CASE(roll_the_dices, dice_roller)
