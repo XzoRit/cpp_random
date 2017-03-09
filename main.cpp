@@ -18,18 +18,18 @@ public:
     {}
 };
 
-std::random_device rand_dev{};
-std::mt19937 twister{rand_dev()};
-std::uniform_int_distribution<int> dist{1, 6};
-
-using roll_results = std::map<int, int>;
-const auto runs{100000};
-const auto scale{100};
-
 const auto roll_one_dice = []()
 {
+    static std::random_device rand_dev{};
+    static std::mt19937 twister{rand_dev()};
+    static std::uniform_int_distribution<int> dist{1, 6};
+
     return dist(twister);
 };
+
+using roll_results = std::map<int, int>;
+const auto runs{200000};
+const auto scale{runs / 1000};
 
 const auto roll = [](int num_of_dices)
 {
